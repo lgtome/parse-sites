@@ -1,3 +1,4 @@
+all: install execute
 install:
 	pip install pyinstaller
 	pip install py2app

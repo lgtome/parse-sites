@@ -1,3 +1,0 @@
-([('init',
-   '/Users/notnow/code/python/parse-pirate-sites/dist/init',
-   'EXECUTABLE')],)
