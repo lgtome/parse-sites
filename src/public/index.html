@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="eel.js"></script>
+  <style>
+    .wrapper {
+      width: 100%;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .url {
+      outline: none;
+      color: #9b9b9b;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .url:hover {
+      color: #777676;
+    }
+
+    .form__group {
+      position: relative;
+      padding: 15px 0 0;
+      margin-top: 10px;
+      width: 50%;
+    }
+
+    .form__field {
+      font-family: inherit;
+      width: 100%;
+      border: 0;
+      border-bottom: 2px solid #9b9b9b;
+      outline: 0;
+      font-size: 1.3rem;
+      color: #fff;
+      padding: 7px 0;
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+
+    .form__field::placeholder {
+      color: transparent;
+    }
+
+    .form__field:placeholder-shown~.form__label {
+      font-size: 1.3rem;
+      cursor: text;
+      top: 20px;
+    }
+
+    .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: #9b9b9b;
+    }
+
+    .form__field:focus {
+      padding-bottom: 6px;
+      font-weight: 700;
+      border-width: 3px;
+      border-image: linear-gradient(to right, #11998e, #38ef7d);
+      border-image-slice: 1;
+    }
+
+    .form__field:focus~.form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: #11998e;
+      font-weight: 700;
+    }
+
+    /* reset input */
+    .form__field:required,
+    .form__field:invalid {
+      box-shadow: none;
+    }
+
+    /* demo */
+    body {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-size: 1.5rem;
+      background-color: #222;
+    }
+
+    .button-29 {
+      align-items: center;
+      appearance: none;
+      background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+      border: 0;
+      border-radius: 6px;
+      box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+      box-sizing: border-box;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-family: "JetBrains Mono", monospace;
+      height: 48px;
+      justify-content: center;
+      line-height: 1;
+      list-style: none;
+      overflow: hidden;
+      padding-left: 16px;
+      padding-right: 16px;
+      position: relative;
+      text-align: left;
+      text-decoration: none;
+      transition: box-shadow .15s, transform .15s;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      white-space: nowrap;
+      will-change: box-shadow, transform;
+      font-size: 18px;
+    }
+
+    .button-29:focus {
+      box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    }
+
+    .button-29:hover {
+      box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+      transform: translateY(-2px);
+    }
+
+    .button-29:active {
+      box-shadow: #3c4fe0 0 3px 7px inset;
+      transform: translateY(2px);
+    }
+
+    @import url(https://fonts.googleapis.com/css?family=Montserrat:900|Raleway:400,400i,700,700i);
+
+    /*** FONTS ***/
+    /*** VARIABLES ***/
+    /* Colors */
+    /*** EXTEND ***/
+    /* box-shadow */
+    ol.gradient-list>li,
+    ol.gradient-list>li::before {
+      box-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05), 0 0.5rem 1.125rem rgba(75, 0, 0, 0.05);
+    }
+
+    /*** STYLE ***/
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      display: block;
+      margin: 0 auto;
+      max-width: 40rem;
+      padding: 1rem;
+    }
+
+    ol.gradient-list {
+      counter-reset: gradient-counter;
+      list-style: none;
+      margin: 1.75rem 0;
+      padding-left: 1rem;
+    }
+
+    ol.gradient-list>li {
+      background: white;
+      border-radius: 0 0.5rem 0.5rem 0.5rem;
+      counter-increment: gradient-counter;
+      margin-top: 1rem;
+      min-height: 3rem;
+      padding: 1rem 1rem 1rem 3rem;
+      position: relative;
+    }
+
+    ol.gradient-list>li::before,
+    ol.gradient-list>li::after {
+      background: linear-gradient(135deg, #83e4e2 0%, #a2ed56 100%);
+      border-radius: 1rem 1rem 0 1rem;
+      content: '';
+      height: 3rem;
+      left: -1rem;
+      overflow: hidden;
+      position: absolute;
+      top: -1rem;
+      width: 3rem;
+    }
+
+    ol.gradient-list>li::before {
+      align-items: flex-end;
+      content: counter(gradient-counter);
+      color: #1d1f20;
+      display: flex;
+      font: 900 1.5em/1 'Montserrat';
+      justify-content: flex-end;
+      padding: 0.125em 0.25em;
+      z-index: 1;
+    }
+
+    ol.gradient-list>li:nth-child(10n+1):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.2) 0%, rgba(253, 220, 50, 0.2) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+2):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.4) 0%, rgba(253, 220, 50, 0.4) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+3):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.6) 0%, rgba(253, 220, 50, 0.6) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+4):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.8) 0%, rgba(253, 220, 50, 0.8) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+5):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 1) 0%, rgba(253, 220, 50, 1) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+6):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.8) 0%, rgba(253, 220, 50, 0.8) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+7):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.6) 0%, rgba(253, 220, 50, 0.6) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+8):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.4) 0%, rgba(253, 220, 50, 0.4) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+9):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0.2) 0%, rgba(253, 220, 50, 0.2) 100%);
+    }
+
+    ol.gradient-list>li:nth-child(10n+10):before {
+      background: linear-gradient(135deg, rgba(162, 237, 86, 0) 0%, rgba(253, 220, 50, 0) 100%);
+    }
+
+    ol.gradient-list>li+li {
+      margin-top: 2rem;
+    }
+
+    .loader {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 14px;
+    }
+
+    .loader.hidden {
+      display: none;
+    }
+
+    .loader div {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #66cdaa;
+      border-radius: 50%;
+    }
+
+    .loader div:before,
+    .loader div:after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .loader div:before {
+      background-color: #ffdab9;
+      animation: scale-1 2400ms linear infinite;
+    }
+
+    .loader div:after {
+      background-color: #66cdaa;
+      animation: scale-2 2400ms linear infinite;
+    }
+
+    .loader div:nth-child(2):before,
+    .loader div:nth-child(2):after {
+      animation-delay: 300ms;
+    }
+
+    .loader div:nth-child(3):before,
+    .loader div:nth-child(3):after {
+      animation-delay: 600ms;
+    }
+
+    .loader div:nth-child(4):before,
+    .loader div:nth-child(4):after {
+      animation-delay: 900ms;
+    }
+
+    .loader div:nth-child(5):before,
+    .loader div:nth-child(5):after {
+      animation-delay: 1200ms;
+    }
+
+    .loader div:nth-child(6):before,
+    .loader div:nth-child(6):after {
+      animation-delay: 1500ms;
+    }
+
+    .loader div:nth-child(7):before,
+    .loader div:nth-child(7):after {
+      animation-delay: 1800ms;
+    }
+
+    .loader div:nth-child(8):before,
+    .loader div:nth-child(8):after {
+      animation-delay: 2100ms;
+    }
+
+    .loader div:nth-child(9):before,
+    .loader div:nth-child(9):after {
+      animation-delay: 2400ms;
+    }
+
+    @-moz-keyframes scale-1 {
+      0% {
+        transform: scale(0);
+        z-index: 2;
+      }
+
+      50%,
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @-webkit-keyframes scale-1 {
+      0% {
+        transform: scale(0);
+        z-index: 2;
+      }
+
+      50%,
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @-o-keyframes scale-1 {
+      0% {
+        transform: scale(0);
+        z-index: 2;
+      }
+
+      50%,
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes scale-1 {
+      0% {
+        transform: scale(0);
+        z-index: 2;
+      }
+
+      50%,
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @-moz-keyframes scale-2 {
+
+      0%,
+      50% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @-webkit-keyframes scale-2 {
+
+      0%,
+      50% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @-o-keyframes scale-2 {
+
+      0%,
+      50% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes scale-2 {
+
+      0%,
+      50% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div class="wrapper">
+    <div class="form__group field">
+      <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+      <label for="name" class="form__label">Name</label>
+    </div>
+    <!-- HTML !-->
+    <button class="button-29" role="button" onclick="getValue()">Button 29</button>
+
+  </div>
+  <div class="loader hidden">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="urls">
+
+  </div>
+
+  <script type="text/javascript">
+    async function getValue() {
+      const loader = document.querySelector('.loader')
+      loader.classList.remove('hidden')
+      const container = document.querySelector('.urls')
+      const inputValue = document.getElementById('name').value
+      container.innerHTML = ''
+      let transformed = []
+      const list = document.createElement('ol')
+      list.classList.add('gradient-list')
+
+      let res = await eel.parse_sites(inputValue)()
+      loader.classList.add('hidden')
+      console.log(res);
+      if (res) Object.keys(res).forEach((key, index) => {
+        const listItem = document.createElement('li')
+        const a = document.createElement('a')
+        a.href = res[key]
+        a.target = '_blank'
+        a.textContent = key
+        a.classList.add('url')
+        listItem.appendChild(a)
+        list.appendChild(listItem)
+      })
+
+      container.appendChild(list)
+    }
+  </script>
+</body>
+
+</html>
